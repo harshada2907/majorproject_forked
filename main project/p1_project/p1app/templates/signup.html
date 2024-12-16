@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Sign Up</h1>
+
+  <form method="POST" style="max-width: 400px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    {% csrf_token %}
+    
+    <!-- Username Input -->
+    <div style="margin-bottom: 15px;">
+      <label for="username" style="display: block; margin-bottom: 5px; font-weight: bold;">Username</label>
+      <input type="text" name="un" id="username" placeholder="Enter username" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
+    </div>
+
+    <!-- Password Input -->
+    <div style="margin-bottom: 15px;">
+      <label for="password1" style="display: block; margin-bottom: 5px; font-weight: bold;">Password</label>
+      <input type="password" name="pw1" id="password1" placeholder="Enter password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
+    </div>
+
+    <!-- Confirm Password Input -->
+    <div style="margin-bottom: 20px;">
+      <label for="password2" style="display: block; margin-bottom: 5px; font-weight: bold;">Confirm Password</label>
+      <input type="password" name="pw2" id="password2" placeholder="Confirm password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" style="background-color: #2980b9; color: white; width: 100%; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Register</button>
+  </form>
+
+  <h2 style="text-align: center; margin-top: 20px; color: red;">{{ msg }}</h2>
+{% endblock %}
+

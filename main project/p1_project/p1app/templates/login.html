@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Login</h1>
+  <form method="POST" style="max-width: 400px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    {% csrf_token %}
+    <div style="margin-bottom: 15px;">
+      <label for="username" style="display: block; margin-bottom: 5px; font-weight: bold;">Username</label>
+      <input type="text" name="un" id="username" placeholder="Enter username" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold;">Password</label>
+      <input type="password" name="pw" id="password" placeholder="Enter password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
+    </div>
+
+    <button type="submit" style="background-color: #2980b9; color: white; width: 100%; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">Login</button>
+  </form>
+
+  <h2>{{ msg }}</h2>
+{% endblock %}
+
+ 
