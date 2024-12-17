@@ -52,5 +52,6 @@ This project leverages advanced technologies, including **🤖 Machine Learning*
    - Pandas
    - Scikit-learn
    - NumPy
-   - Matplotlib
+   - matplotlib
+   
 
