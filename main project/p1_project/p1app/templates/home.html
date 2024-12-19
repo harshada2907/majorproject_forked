@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multipurpose Reservoir System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Keyframe Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Section with Background Image -->
+  <section 
+    style="
+      height: 100vh;
+      background-image: url('https://new-img.patrika.com/upload/2023/01/04/bhatsa_dam_thane.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    "
+  >
+    <!-- Gradient Overlay -->
+    <div style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+      ">
+    </div>
+
+    <!-- Content Box -->
+    <div 
+      style="
+        z-index: 2;
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.1); 
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        animation: fadeIn 1s ease-in-out;
+        transition: transform 0.3s ease;
+      "
+      onmouseover="this.style.transform='scale(1.03)'"
+      onmouseout="this.style.transform='scale(1)'"
+    >
+      <h1 style="
+          font-size: 3.5rem; 
+          font-weight: 700; 
+          color: #fff; 
+          margin-bottom: 20px;
+          letter-spacing: 1.5px;
+          text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        ">
+        Welcome to the Multipurpose Reservoir System
+      </h1>
+      <p style="
+          font-size: 1.2rem; 
+          color: #eee; 
+          margin-bottom: 30px; 
+          line-height: 1.6;
+          text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        ">
+        Efficiently manage water resources with advanced, sustainable, and secure solutions.
+      </p>
+      <a 
+  href="{% url 'ubase' %}" 
+  style="
+    font-size: 1.25rem;
+    color: #fff;
+    background: linear-gradient(90deg, #ff8c00, #ffb347);
+    padding: 15px 40px;
+    text-decoration: none;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+    transition: all 0.3s ease-in-out;
+  "
+  onmouseover="this.style.background='linear-gradient(90deg, #ffb347, #ff8c00)'; this.style.boxShadow='0 8px 20px rgba(255, 140, 0, 0.6)';"
+  onmouseout="this.style.background='linear-gradient(90deg, #ff8c00, #ffb347)'; this.style.boxShadow='0 5px 15px rgba(255, 140, 0, 0.4)';"
+>
+  Get Started
+</a>    </div>
+  </section>
+</body>
+</html>
+
+
+
+

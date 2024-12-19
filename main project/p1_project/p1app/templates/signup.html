@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>Sign Up - Reservoir App</title>
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-box {
+            max-width: 450px;
+            width: 100%;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .signup-box h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .signup-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        .signup-box input:focus {
+            border-color: #2980b9;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+            outline: none;
+        }
+
+        .signup-box button {
+            width: 100%;
+            padding: 12px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .signup-box button:hover {
+            background-color: #3498db;
+            transform: translateY(-2px);
+        }
+
+        .signup-box button:active {
+            transform: translateY(2px);
+        }
+
+        .signup-box .error-message {
+            margin-top: 20px;
+            color: #e74c3c;
+            font-size: 1rem;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="signup-container">
+    <div class="signup-box">
+        <h1>Sign Up</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Username Input -->
+            <div>
+                <input type="text" name="un" id="username" placeholder="Enter username" required>
+            </div>
+
+            <!-- Password Input -->
+            <div>
+                <input type="password" name="pw1" id="password1" placeholder="Enter password" required>
+            </div>
+
+            <!-- Confirm Password Input -->
+            <div>
+                <input type="password" name="pw2" id="password2" placeholder="Confirm password" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Register</button>
+        </form>
+
+        {% if msg %}
+        <div class="error-message">
+            <h2>{{ msg }}</h2>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Add a smooth focus transition effect to the inputs
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            input.style.transition = 'all 0.3s ease-in-out';
+        });
+    });
+</script>
+
+</body>
+</html>
+
