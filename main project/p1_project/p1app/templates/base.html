@@ -14,6 +14,7 @@
         .main-content {
             flex: 1;
             padding: 20px;
+            margin-left: 300px;
             transition: margin-left 0.3s;
         }
 
@@ -93,6 +94,76 @@
                 left: 20px;
             }
         }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            justify-content: center;
+            padding-top: 20px;
+            margin-top:60px;
+        }
+
+        .custom-card {
+            background: white;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 300px;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .custom-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .custom-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .custom-card .card-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .custom-card h5 {
+            margin-bottom: 10px;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .custom-card p {
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .justified-text{
+            text-align:justify;
+        }
+
     </style>
 </head>
 <body>
@@ -120,13 +191,13 @@
                     Home
                 </a>
                 <a href="{% url 'ulogin' %}" class="nav-link">
-    <i class="bi bi-box-arrow-in-right me-2"></i>
-    Login
-</a>
-<a href="{% url 'usignup'%}" class="nav-link">
-    <i class="bi bi-person-plus me-2"></i>
-    Register
-</a>                             
+                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                    Login
+                </a>
+                <a href="{% url 'usignup'%}" class="nav-link">
+                    <i class="bi bi-person-plus me-2"></i>
+                    Register
+                </a>
                 <a href="/dashboard" class="nav-link">
                     <i class="bi bi-house-door me-2"></i>
                     User Dashboard
@@ -152,20 +223,44 @@
 
         <!-- Main Content -->
         <div class="main-content">
-
             <button class="btn btn-primary toggle-btn" onclick="toggleSidebar()" id="hamburger-btn">
-    <i class="bi bi-list"></i> <!-- Bootstrap icon for three lines -->
-</button>
+                <i class="bi bi-list"></i>
+            </button>
+
+            <!-- Card Section -->
+            <div class="card-container">
+                <div class="custom-card fade-in">
+                    <img src="https://ideogram.ai/assets/image/lossless/response/Mmql6-apR1CoiKk0lPwAjQ" alt="Placeholder Image">
+                    <div class="card-body">
+                        <h5>Prediction</h5>
+                        <p class="justified-text">The Water Reservoir project predicts key parameters like inflow and outflow to optimize water usage. It forecasts inflow based on weather, rainfall, and upstream sources, and outflow to meet downstream needs. This helps in managing water levels efficiently and ensuring sustainable supply.</p>
+                    </div>
+                </div>
+                <div class="custom-card fade-in">
+                    <img src="https://ideogram.ai/assets/progressive-image/balanced/response/Hnbi7n4ZRg-KxGMv1yheHQ" alt="Placeholder Image">
+                    <div class="card-body">
+                        <h5>Dashboard</h5>
+                        <p class="justified-text">The dashboard of the Water Reservoir project provides a user-friendly interface to visualize real-time data on water levels, inflow, and outflow. It displays key metrics and predictions, allowing users to monitor the reservoir's status and make informed decisions. The dashboard also includes charts and graphs to track trends, helping in efficient water management and planning.</p>
+                    </div>
+                </div>
+                <div class="custom-card fade-in">
+                    <img src="https://ideogram.ai/assets/image/lossless/response/JbSZjfVQTxyrWH2hXxMgQA" alt="Placeholder Image">
+                    <div class="card-body">
+                        <h5>Crop Prediction and Hydropower Generation</h5>
+                        <p class="justified-text">The project also includes hydropower generation prediction, where models forecast the potential electricity output based on water levels and flow rates. By analyzing inflow and outflow data, it predicts how much energy can be generated at different times. Additionally, crop yield prediction is integrated, using water availability data to forecast agricultural productivity, helping farmers plan irrigation and optimize crop production based on expected water resources.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-<script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.querySelector('.toggle-btn');
-        sidebar.classList.toggle('collapsed');
-        toggleBtn.classList.toggle('collapsed');
-    }
-</script>
-
-    </body>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            sidebar.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('collapsed');
+        }
+    </script>
+</body>
 </html>
