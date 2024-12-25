@@ -28,6 +28,7 @@ This project aims to address these challenges by implementing a robust, data-dri
 📊 Predictive Model
 
 SARIMAX: For accurate time series forecasting of water releases.
+
 Monte Carlo Simulations: To model uncertainties in inflow and storage.
 
 📈 Visualizations
