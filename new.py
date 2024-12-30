@@ -1,115 +1,82 @@
+# import the libraries
 import pandas as pd
 import numpy as np
-from statsmodels.tsa.statespace.sarimax import SARIMAX
-from sklearn.metrics import mean_squared_error
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import warnings
-
 warnings.filterwarnings("ignore")
 
-# Load the dataset
-df = pd.read_csv("Bhatsa_dam.csv")
+# load the data
+data = pd.read_csv("Bhatsa_Dam.csv")
+print(data)
 
-# Print the initial column names for reference
-print("Initial Column Names:", df.columns)
+# check for null data
+print(data.isnull().sum())
 
-# Rename columns (update this to match your dataset)
-df.columns = [
-    "release_bmc_tmc", "release_escape_gate", "%release_escape_gate", 
-    "release_irrigation_canal", "%release_irrigation", 
-    "release_spillway_river", "%release_spillway", 
-    "leakage_gallery", "%leakage_gallery", "total_release", 
-    "reservoir_evaporation_losses", "other_measured_leakages", 
-    "reservoir_water_level_end_month", "gross_storage_end_month", 
-    "%gross_storage_end_month", "calculated_inflow_month"
-    # Add or adjust column names if your dataset has more columns
-]
+#features
+features = data[["Reservoir water level on start of month (m)", 
+	"Effective gross storage on start on month (Mcum)", 
+	"Release through escape gate", 
+	"Release through spillway river (Mcum)", 
+	"Leakage through gallery (Mcum)", 
+	"Reservoir evaporation on losses (Mcum)", 
+	"Other measured Leakages (Mcum)", 
+	"Reservoir water level on end of month (m)", 
+	"Gross storage on end of month (Mcum)", 
+	"Calculated inflow of month (Mcum)"]]
 
-# Target variables for prediction
-target_irrigation = "%release_irrigation"
-target_hydropower = "%release_spillway"
+# print the features
+print(features)
 
-# Features
-features = [
-    "gross_storage_end_month", "calculated_inflow_month",
-    "reservoir_evaporation_losses", "total_release"
-]
+# target
+target = data[["Release for irrigation through canal (Mcum)", 
+	"Release for BMC/TMC other through power house (Mcum)"]]
 
-# Ensure the dataset has no missing values
-df = df.dropna()
+# print the target
+print(target)
 
-# Split data into training and testing sets
-train_size = int(len(df) * 0.8)
-train, test = df.iloc[:train_size], df.iloc[train_size:]
+# Principal Component Analysis for dimensionality reduction
+pca = PCA(n_components = 10)
+pfeatures = pca.fit_transform(features)
+print(pfeatures)
+print(pfeatures.shape)
 
-# Function to fit SARIMAX model and predict
-def fit_sarimax(train_data, test_data, feature, target):
-    # SARIMAX requires both exogenous features and endog target series
-    sarimax_model = SARIMAX(
-        train_data[target],
-        exog=train_data[feature],
-        order=(1, 1, 1),
-        seasonal_order=(1, 1, 1, 12)
-    )
-    model_fit = sarimax_model.fit(disp=False)
+# train test split
+x_train, x_test, y_train, y_test = train_test_split(pfeatures, target, random_state = 42)
 
-    # Forecast on the test data
-    forecast = model_fit.forecast(steps=len(test_data), exog=test_data[feature])
-    
-    return forecast, model_fit
 
-# Predict %release_irrigation
-forecast_irrigation, model_irrigation = fit_sarimax(
-    train, test, features, target_irrigation
-)
+# model building
+model = RandomForestRegressor(n_estimators = 150, random_state = 42)
+model.fit(x_train, y_train)
 
-# Predict %release_hydropower
-forecast_hydropower, model_hydropower = fit_sarimax(
-    train, test, features, target_hydropower
-)
 
-# Evaluate results
-def evaluate_model(test_data, forecast, target):
-    mse = mean_squared_error(test_data[target], forecast)
-    print(f"Mean Squared Error for {target}: {mse}")
-    return mse
+# traning score of model
+s1 = model.score(x_train, y_train)
+print("Training Score is: ",  round(s1, 2)*100, "%")
 
-# Evaluate irrigation prediction
-evaluate_model(test, forecast_irrigation, target_irrigation)
+# testing score of model
+s2 = model.score(x_test, y_test)
+print("Testing Score is: ", round(s2, 2)*100, "%")
 
-# Evaluate hydropower prediction
-evaluate_model(test, forecast_hydropower, target_hydropower)
+print("Please enter the following features: ")
 
-# Plot results
-def plot_results(test_data, forecast, target, title):
-    plt.figure(figsize=(12, 6))
-    plt.plot(test_data[target].values, label="Actual", color="blue")
-    plt.plot(forecast, label="Forecast", color="orange")
-    plt.title(title)
-    plt.legend()
-    plt.show()
+re_wa_start = float(input("Enter the reservoir water level at the start of the month: "))
+eff_sto_start = float(input("Enter the effective gross storage on the start of the month: "))
+esc_gate = float(input("Enter the release of water through escape gate: "))
+sp_river = float(input("Enter the release of water through spillway river: "))
+lea_gal = float(input("Enter the leakage through gallery: "))
+re_eva = float(input("Enter the reservoir evaporation losses: "))
+ot_lea = float(input("Enter the other measured leakages: "))
+re_wa_end = float(input("Enter the reservoir water level at the end of the month: "))
+gross_sto_end = float(input("Enter the gross storage at the end of the month: "))
+inflow = float(input("Enter the calculated inflow of month: "))
 
-# Plot for irrigation
-plot_results(test, forecast_irrigation, target_irrigation, "Irrigation Prediction")
+df = [[re_wa_start, eff_sto_start, esc_gate, sp_river, lea_gal, re_eva, ot_lea, re_wa_end, gross_sto_end, inflow
+]]
 
-# Plot for hydropower
-plot_results(test, forecast_hydropower, target_hydropower, "Hydropower Prediction")
+	
 
-# Optimality Check: Ensure water availability in case of reduced inflow
-def check_optimality(forecast, available_storage, critical_storage=20):
-    """
-    Ensure water release is optimal for the next year.
-    Args:
-    - forecast: Predicted release percentages.
-    - available_storage: Current storage level.
-    - critical_storage: Minimum storage to ensure availability (default = 20%).
-    """
-    future_usage = sum(forecast)
-    if available_storage - future_usage < critical_storage:
-        print("Warning: Predicted usage exceeds safe storage levels!")
-    else:
-        print("Predicted usage is within optimal levels.")
 
-# Example check
-check_optimality(forecast_irrigation, df["gross_storage_end_month"].iloc[-1])
-check_optimality(forecast_hydropower, df["gross_storage_end_month"].iloc[-1])
+
